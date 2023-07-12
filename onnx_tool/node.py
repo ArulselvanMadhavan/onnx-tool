@@ -240,7 +240,18 @@ class AddNode(NpMathBase):
     def value_infer(self, intensors: []):
         return [intensors[0] + intensors[1]]
 
+@NODE_REGISTRY.register()
+class ModNode(NpMathBase):
+    def __init__(self, n):
+        super().__init__(n)
+        self.op_mac = DIV_MACS
 
+    def value_infer(self, intensors: []):
+        if intensors[0].dtype == intensors[1].dtype:
+            if intensors[0].dtype in [numpy.single, numpy.double, numpy.float16, numpy.half]:
+                return [numpy.fmod(intensors[0], intensors[1])]
+        return [numpy.mod(intensors[0], intensors[1])]
+    
 @NODE_REGISTRY.register()
 class MinNode(NpMathBase):
     def __init__(self, node):
