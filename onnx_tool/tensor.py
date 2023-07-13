@@ -435,7 +435,7 @@ class Tensor():
     def make_value_proto(self, make_dummy=False):
         if len(self.shape) == 0:
             if self.proto is None and make_dummy:
-                warnings.warn('Creating a dummpy tensor proto:' + self.name)
+                warnings.warn(f'Creating a dummpy tensor proto:{self.name}')
                 return onnx.helper.make_tensor_value_info(self.name, 1, None)
             return self.proto
         else:
